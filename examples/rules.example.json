@@ -1,0 +1,7 @@
+[
+  {"match": "\\b(invoice|receipt|payslip|bank statement|gst|itr)\\b", "to": "20_Areas/Finance"},
+  {"match": "\\b(assignment|syllabus|lab record|question paper|unit \\d+|module \\d+)\\b", "to": "20_Areas/Education"},
+  {"match": "\\b(resume|cv|cover letter|offer letter|internship)\\b", "to": "20_Areas/Career"},
+  {"match": "\\b(passport|aadhaar|pan card|driving licen[sc]e)\\b", "to": "20_Areas/Identity-and-Admin"},
+  {"match": "my startup|pitch deck|client name", "to": "10_Projects/My-Startup"}
+]

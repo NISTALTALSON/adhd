@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.adhd-or-ocd/
+tests/tmp*/
+tests/_demo/
+.DS_Store
+Thumbs.db
