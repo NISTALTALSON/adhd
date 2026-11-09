@@ -24,7 +24,7 @@ def run(*args):
 def snapshot(root: Path):
     """sha256 of every non-state file (names change, bytes must not)"""
     return sorted(hashlib.sha256(p.read_bytes()).hexdigest()
-                  for p in root.rglob("*") if p.is_file() and ".adhd-or-ocd" not in p.parts)
+                  for p in root.rglob("*") if p.is_file() and ".adhd" not in p.parts)
 
 
 def make(root: Path, name, data=b"x", age=OLD):
@@ -63,7 +63,7 @@ class RoundTrip(unittest.TestCase):
         root = self.sandbox()
         before = snapshot(root)
         run("plan", root, "--mode", mode, "--depth", "2", "--prune-empty")
-        run("apply", max((root / ".adhd-or-ocd").glob("plan-*.json")))
+        run("apply", max((root / ".adhd").glob("plan-*.json")))
         self.assertEqual(before, snapshot(root), "files lost or changed")
         self.assertTrue((root / "myapp" / "package.json").exists(), "project folder was touched")
         self.assertTrue((root / "fresh.pdf").exists(), "recent file was moved")

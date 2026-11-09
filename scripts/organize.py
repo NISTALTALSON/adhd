@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""adhd-or-ocd: a safe, undoable file organizer. Pure standard library, Python 3.8+.
+"""adhd: a safe, undoable file organizer. Pure standard library, Python 3.8+.
 
   scan    PATH            read-only report with a Chaos Score
   plan    PATH [options]  dry run: writes a plan file, moves nothing
@@ -24,7 +24,7 @@ from datetime import datetime
 from pathlib import Path
 
 __version__ = "1.0.0"
-STATE = ".adhd-or-ocd"
+STATE = ".adhd"
 
 TYPE_EXTS = {
     "Documents": "pdf doc docx txt rtf odt md pages tex",
@@ -243,9 +243,9 @@ def analyze(root: Path, depth: int = 12):
     if score < 15:
         verdict = "Already tidy. Show-off."
     elif pile_idx >= maze_idx:
-        verdict = "ADHD-style chaos: big piles, very little structure"
+        verdict = "Pile-style chaos: big piles, very little structure"
     else:
-        verdict = "OCD-style chaos: a maze of folders and fiddly file names"
+        verdict = "Maze-style chaos: a maze of folders and fiddly file names"
     return dict(root=str(root), files=files, projects=projects, loose=len(loose), total=total,
                 folders=len(plain), size=sum(f["size"] for f in files), dup_files=dup_files,
                 dup_bytes=dup_bytes, bad_names=bad, junk=junk, stale=stale, empty=empty,
@@ -264,7 +264,7 @@ def cmd_scan(a):
         out(json.dumps({k: v for k, v in r.items() if k not in ("files", "parts")}, indent=2))
         return
     types = Counter(f["type"] for f in r["files"])
-    out(f"\n== ADHD-or-OCD scan: {root}")
+    out(f"\n== ADHD scan: {root}")
     out(f"Files: {r['total']}   Folders: {r['folders']}   Size: {human(r['size'])}   "
         f"Project folders (left alone): {len(r['projects'])}")
     out(f"Loose in root: {r['loose']}   Duplicates: {r['dup_files']} ({human(r['dup_bytes'])} wasted)   "
@@ -389,6 +389,8 @@ def build_plan(src: Path, dest: Path, mode: str, o):
 
 def cmd_plan(a):
     src = guard(a.path)
+    a.mode = {"quick": "adhd", "perfect": "ocd"}.get(a.mode, a.mode)  # internal names
+    label = "QUICK" if a.mode == "adhd" else "PERFECT"
     dest = guard(a.dest) if a.dest else src
     plan = build_plan(src, dest, a.mode, a)
     before = analyze(src)
@@ -400,7 +402,7 @@ def cmd_plan(a):
     groups = defaultdict(list)
     for m in plan["moves"]:
         groups[m["dst_dir"]].append(m)
-    out(f"\n== DRY RUN ({a.mode.upper()} mode): {src}  ->  {dest}")
+    out(f"\n== DRY RUN ({label} mode): {src}  ->  {dest}")
     out(f"Chaos Score now: {before['score']}/100 {bar(before['score'])}  {before['verdict']}")
     out(f"\n{len(plan['moves'])} files would move into {len(groups)} folders:\n")
     for folder in sorted(groups):
@@ -565,16 +567,17 @@ def main():
     s.set_defaults(fn=cmd_scan)
     p = sub.add_parser("plan", help="dry run, writes a plan, moves nothing")
     p.add_argument("path")
-    p.add_argument("--mode", choices=["adhd", "ocd"], default="adhd")
+    p.add_argument("--mode", choices=["quick", "perfect", "adhd", "ocd"], default="quick",
+                   help="quick = type-based triage (default), perfect = PARA + clean names")
     p.add_argument("--dest", help="organize INTO this folder instead of in place")
     p.add_argument("--depth", type=int, default=1, help="1 = only loose files in PATH (default); 3 = dig 3 levels")
     p.add_argument("--rules", help="JSON file: [{\"match\": regex, \"to\": \"20_Areas/Name\"}]")
-    p.add_argument("--archive-days", type=int, default=365, help="OCD mode: older files go to 90_Archive")
+    p.add_argument("--archive-days", type=int, default=365, help="Perfect mode: older files go to 90_Archive")
     p.add_argument("--min-age", type=int, default=30, help="skip files modified in the last N minutes")
     p.add_argument("--max-hash-mb", type=int, default=2048)
     p.add_argument("--no-dupes", action="store_true")
-    p.add_argument("--rename", action="store_true", help="clean names in ADHD mode too")
-    p.add_argument("--keep-names", action="store_true", help="never rename (OCD mode)")
+    p.add_argument("--rename", action="store_true", help="clean names in Quick mode too")
+    p.add_argument("--keep-names", action="store_true", help="never rename (Perfect mode)")
     p.add_argument("--flatten", action="store_true", help="drop original subfolder names when digging")
     p.add_argument("--prune-empty", action="store_true", help="remove folders left empty (undoable)")
     p.add_argument("--out", help="where to save the plan")

@@ -4,10 +4,10 @@ set -e
 src="$(cd "$(dirname "$0")" && pwd)"
 for base in "$HOME/.claude/skills" "$HOME/.codex/skills"; do
   if [ -d "$(dirname "$base")" ]; then
-    dest="$base/adhd-or-ocd"
+    dest="$base/adhd"
     mkdir -p "$dest"
     cp -R "$src/SKILL.md" "$src/scripts" "$src/references" "$src/examples" "$dest"
     echo "Installed -> $dest"
   fi
 done
-echo "Done. Try: 'ADHD or OCD, clean my Downloads'"
+echo "Done. Try: 'ADHD, clean my Downloads'"

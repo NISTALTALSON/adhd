@@ -1,6 +1,6 @@
 __pycache__/
 *.pyc
-.adhd-or-ocd/
+.adhd/
 tests/tmp*/
 tests/_demo/
 .DS_Store

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250" width="900" height="250" role="img" aria-label="Chaos Score dropped from 45 to 1">
+<style>
+text{font-family:'Segoe UI',Helvetica,Arial,sans-serif}
+.b1{transform-origin:110px 0;transform-box:view-box;animation:g1 6s ease-out infinite}
+.b2{animation:g2 6s ease-out infinite}
+@keyframes g1{0%{transform:scaleX(0)}25%,100%{transform:scaleX(1)}}
+@keyframes g2{0%,45%{opacity:0}60%,100%{opacity:1}}
+</style>
+<rect width="900" height="250" rx="16" fill="#0d1020" stroke="#2a2f55"/>
+<text x="450" y="46" text-anchor="middle" font-size="22" font-weight="700" fill="#e8e8ff">Chaos Score: real run on the demo mess</text>
+<text x="30" y="108" font-size="18" fill="#c7c9e6">Before</text><text x="30" y="178" font-size="18" fill="#c7c9e6">After</text>
+<rect x="110" y="86" width="700" height="30" rx="15" fill="#1b1f3d"/><rect x="110" y="156" width="700" height="30" rx="15" fill="#1b1f3d"/>
+<rect class="b1" x="110" y="86" width="315" height="30" rx="15" fill="#ff7a59"/>
+<g class="b2"><rect x="110" y="156" width="14" height="30" rx="7" fill="#5eead4"/></g>
+<text x="440" y="108" font-size="20" font-weight="800" fill="#ff9d85">45</text>
+<g class="b2"><text x="140" y="178" font-size="20" font-weight="800" fill="#5eead4">1</text></g>
+<text x="450" y="228" text-anchor="middle" font-size="15" fill="#8b8fb8">0 = zen, 100 = gremlin cave · every apply prints your before and after</text>
+</svg>

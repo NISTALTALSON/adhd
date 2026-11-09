@@ -6,7 +6,7 @@ Read this only if you need to justify a choice. The short version: use a shallow
 
 | Idea | Used for | Source |
 |---|---|---|
-| **PARA** (Projects, Areas, Resources, Archive) | the `10/20/30/90` top-level split in OCD mode | Tiago Forte, [Building a Second Brain](https://www.buildingasecondbrain.com/) |
+| **PARA** (Projects, Areas, Resources, Archive) | the `10/20/30/90` top-level split in Perfect mode | Tiago Forte, [Building a Second Brain](https://www.buildingasecondbrain.com/) |
 | **Johnny.Decimal** numbering | numeric prefixes so folder order never shuffles | [johnnydecimal.com](https://johnnydecimal.com/) |
 | **ISO 8601 dates** (`YYYY-MM-DD`) first in file names | names sort chronologically in every OS | [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), [Johnny.Decimal forum on filenames](https://forum.johnnydecimal.com/t/the-recomended-structure-for-filenames-in-jd/1376) |
 | Avoid special characters and spaces, keep names short and consistent | kebab-case, stripped `<>:"/\|?*` | [NIST electronic file organization tips (PDF)](https://www.nist.gov/document/electronicfileorganizationtips-2016-03pdf) |
@@ -15,7 +15,7 @@ Read this only if you need to justify a choice. The short version: use a shallow
 
 ## Decisions and their reasons
 
-- **Two modes, because there are two failure styles.** Pile-makers need a low-friction fix they will actually keep; maze-makers want a system they can trust. One layout cannot serve both. ADHD mode never renames anything, so there is nothing to second-guess. OCD mode renames because consistent names are the whole point.
+- **Two modes, because there are two failure styles.** Pile-makers need a low-friction fix they will actually keep; maze-makers want a system they can trust. One layout cannot serve both. Quick mode never renames anything, so there is nothing to second-guess. Perfect mode renames because consistent names are the whole point.
 - **Numbered top folders (`00`..`99`).** Alphabetical order scatters folders; numbers pin them. Gaps (`10`, `20`, `30`) leave room to add areas later without renumbering.
 - **Date folders only for media.** Photos and screenshots are found by *when*; documents are found by *what*. Archive uses year folders because "older than a year" is the one date question documents get asked.
 - **Context folder preserved when digging (`--depth > 1`).** A folder called "Semester 3" is information. Flattening it into `Documents/` would destroy that. The script keeps the first-level folder name unless `--flatten` is passed.
